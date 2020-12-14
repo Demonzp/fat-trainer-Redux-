@@ -15,7 +15,7 @@ import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerStyle.js";
 
-import {useAppState} from "state/appState";
+import useAuth from "hooks/useAuth.js";
 
 const useStyles = makeStyles(styles);
 
@@ -23,7 +23,7 @@ export default function Header(props) {
   
   const classes = useStyles();
 
-  const [{user},{signOut}]=useAppState();
+  const {user, logOut} = useAuth();
 
   function makeBrand() {
     var name;
@@ -53,7 +53,7 @@ export default function Header(props) {
           </Button>
         </div>
         <Hidden smDown implementation="css">
-          {user?<AdminNavbarLinks user={user} signOut={signOut}/>:null}
+          {user?<AdminNavbarLinks user={user} signOut={logOut}/>:null}
         </Hidden>
         <Hidden mdUp implementation="css">
           <IconButton

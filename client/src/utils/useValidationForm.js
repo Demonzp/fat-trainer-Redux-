@@ -22,7 +22,6 @@ const UseValidationForm = (callback, initialState = {}, Validation) => {
         event.preventDefault();
         // Обработчик ошибок.
         setErrors(Validation(values));
-
         setIsSubmitting(true);
     };
 

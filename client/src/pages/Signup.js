@@ -1,126 +1,49 @@
 import React from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
-import { ListItem, TextField, List } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
-import { NavLink, useHistory } from "react-router-dom";
-// core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import Button from "components/CustomButtons/Button.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
-
-import UseValidationForm from "utils/useValidationForm";
 import {Registration as Validation} from "validation/registration";
 import RoutNames from "../constants/routNames";
+import CustomTextInput from "components/FormTextField/CustomTextInput";
 
-const styles = {
-  cardCategoryWhite: {
-    color: "rgba(255,255,255,.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    marginBottom: "0"
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none"
-  }
-};
+import SimpleForm from "components/SimpleForm/SimpleForm";
+import EmailInput from "components/FormTextField/EmaiInput";
+import PasswordInput from "components/FormTextField/PasswordInput";
+import FormBtn from "components/FormBtn/FormBtn";
+import FormNavLink from "components/FormNavLink/FormNavLink";
 
-const useStyles = makeStyles(styles);
+import useAuth from "hooks/useAuth";
+
 
 function SignupPage() {
-  const classes = useStyles();
   const history = useHistory();
 
-  const { handleChange, handleSubmit, values, errors } = UseValidationForm(
-    submit,
-    { email: '', password: '', confirmPassword:''},
-    Validation
-  );
+  const {lockAuthApp} = useAuth();
 
-  function submit(e){
-      .then((data)=>{
-        history.push(`${RoutNames.verification}/?email=${values.email}`);
-      });
+  function submit(values){
+    console.log('values = ', values);
+          // .then((data)=>{
+      //   history.push(`${RoutNames.verification}/?email=${values.email}`);
+      // });
   }
 
   return (
-    <div>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={8}>
-          <form onSubmit={handleSubmit}>
-          <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Register whis Fir Trainer App</h4>
-              <p className={classes.cardCategoryWhite}>Please, enter your email and password</p>
-            </CardHeader>
-            <CardBody>
-              <List>
-                <ListItem>
-                  <TextField
-                    error={errors.email ? true:false} 
-                    onChange={handleChange}
-                    name="email" 
-                    value={values.email}
-                    label="Email address" 
-                    helperText={errors.email}
-                  />
-                </ListItem>
-                <ListItem>
-                  <TextField 
-                    error={errors.password ? true:false}
-                    onChange={handleChange}
-                    name="password" 
-                    value={values.password}
-                    label="Password" 
-                    type="password"
-                    helperText={errors.password}
-                  />
-                </ListItem>
-                <ListItem>
-                  <TextField 
-                    error={errors.confirmPassword ? true:false}
-                    onChange={handleChange}
-                    name="confirmPassword" 
-                    value={values.confirmPassword}
-                    label="Repeat password" 
-                    type="password"
-                    helperText={errors.confirmPassword}
-                  />
-                </ListItem>
-              </List>
-              
-            </CardBody>
-            <CardFooter>
-              <List>
-                <ListItem>
-                  <Button color="primary" type="submit">Sign up</Button>
-                </ListItem>
-                <ListItem>
-                  <NavLink
-                    to={RoutNames.login}
-                    color="primary"
-                  >
-                  already have an accaunt? sign-in
-                  </NavLink>
-                </ListItem> 
-              </List>
-            </CardFooter>
-          </Card>
-          </form>
-        </GridItem>
-      </GridContainer>
-    </div>
+    <SimpleForm
+      submit={submit}
+      validation={Validation}
+      title="Register whis Fir Trainer App"
+      subTitle="Please, enter your email and password"
+      vals={{email:'', password:'', confirmPassword:''}}
+      isLoading={lockAuthApp}
+    >
+      <EmailInput/>
+      <PasswordInput/>
+      <CustomTextInput name="confirmPassword" label="Repeat password" type="password"/>
+      <FormBtn type="submit">Sign in</FormBtn>
+      <FormNavLink
+        to={RoutNames.login}
+      >already have an accaunt? sign-in</FormNavLink>
+    </SimpleForm>
   );
 }
 

@@ -1,12 +1,12 @@
 import React from "react";
 import {Route, Redirect} from "react-router-dom";
 
-import {useAppState} from "state/appState";
+import useAuth from "hooks/useAuth";
 import Spinner from "components/Spinner";
 import RoutNames from "../constants/routNames";
 
 const UnknownRoute = ({...rest})=> {
-  const [{ authAttempted, user }] = useAppState();
+  const { authAttempted, user } = useAuth;
    
   return (
     <Route
