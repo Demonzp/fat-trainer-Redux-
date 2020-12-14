@@ -7,7 +7,7 @@ import RoutNames from "../constants/routNames";
 
 const GuestRoute = ({component:Component, ...rest})=> {
   const { authAttempted, user } = useAuth();
-   
+  
   return (
     <Route
       {...rest}
