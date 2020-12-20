@@ -1,10 +1,10 @@
 import routes from "routes.js";
 
 const getAuthRoutes = ()=>{
-  return routes.filter((rout)=> rout.middelware==='guest' && !rout.hidden);
+  return routes.filter((rout)=> rout.middelware==='guest');
 }
 const getDashboardRoutes = ()=>{
-  return routes.filter((rout)=> rout.middelware==='auth' && !rout.hidden);
+  return routes.filter((rout)=> rout.middelware==='auth');
 }
 
 const attempt = ({ token, user }) => (dispatch) => {

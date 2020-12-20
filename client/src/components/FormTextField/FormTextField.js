@@ -1,17 +1,19 @@
 import React from 'react';
 import { ListItem, TextField } from "@material-ui/core";
 
-const FormTextField = ({name, label, handleChange, type='text', values, errors}) => {
+const FormTextField = ({ name, label, handleChange, type = 'text', value, error, ...rest }) => {
+  
   return (
     <ListItem>
       <TextField
-        error={errors[name] ? true : false}
+        {...rest}
+        error={error ? true : false}
         onChange={handleChange}
         name={name}
-        value={values[name]}
+        value={value}
         label={label}
         type={type}
-        helperText={errors[name]}
+        helperText={error}
       />
     </ListItem>
   );

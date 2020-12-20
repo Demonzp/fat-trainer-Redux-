@@ -8,15 +8,20 @@ import PasswordInput from "components/FormTextField/PasswordInput";
 import FormBtn from "components/FormBtn/FormBtn";
 import FormNavLink from "components/FormNavLink/FormNavLink";
 
-import {Login as Validation} from "validation/login";
+import { Login as Validation } from "validation/login";
 import useAuth from "hooks/useAuth";
 
 function SigninPage() {
 
-  const {lockAuthApp} = useAuth();
+  const { lockAuthApp, logIn } = useAuth();
 
-  function submit(values){
-    console.log('values = ', values);
+  // const [historyVals, setHistoryVals] = useState({
+  //   email: '', password: ''
+  // });
+
+  function submit(values) {
+    //setHistoryVals(values);
+    logIn(values);
   }
 
   return (
@@ -25,11 +30,11 @@ function SigninPage() {
       validation={Validation}
       title="Sign intro Fit Trainer App"
       subTitle="Please, enter your email and password"
-      vals={{email:'',password:''}}
+      vals={{email: '', password: ''}}
       isLoading={lockAuthApp}
     >
-      <EmailInput/>
-      <PasswordInput/>
+      <EmailInput />
+      <PasswordInput />
       <FormBtn type="submit">Sign in</FormBtn>
       <FormNavLink
         to={RoutNames.registration}

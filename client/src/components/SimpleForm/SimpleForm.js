@@ -39,8 +39,12 @@ const SimpleForm = ({submit, title, subTitle, vals, validation, children, isLoad
   const [fields, setFields] = useState([]);
   const [btns, setBtns] = useState([]);
   const [navs, setNavs] = useState([]);
+  const [isInit, setIsInit] = useState(false);
 
   const preSubmit = (e)=>{
+    if(isLoading){
+      return;
+    }
     submit(values);
   };
 
@@ -60,8 +64,12 @@ const SimpleForm = ({submit, title, subTitle, vals, validation, children, isLoad
         tmpBtns.push(React.cloneElement(el, {isLoading, key, style:{marginLeft:'5px',marginRight:'5px'}}));
       }else if(el.type.name==='FormNavLink'){
         tmpLinks.push(React.cloneElement(el, {key}));
+      }else if(el.type.name==='EmailInput'){
+        tmpFields.push(React.cloneElement(el, {name:'email', value:values['email'], error:null, handleChange, key}));
+      }else if(el.type.name==='PasswordInput'){
+        tmpFields.push(React.cloneElement(el, {name:'password', value:values['password'], error:null, handleChange, key}));
       }else{
-        tmpFields.push(React.cloneElement(el, {values, errors, handleChange, key}));
+        tmpFields.push(React.cloneElement(el, {value:values[el.props.name], error:null, handleChange, key}));
       }
     }
 
@@ -75,8 +83,30 @@ const SimpleForm = ({submit, title, subTitle, vals, validation, children, isLoad
     setFields(tmpFields);
     setBtns(tmpBtns);
     setNavs(tmpLinks);
+    setIsInit(true);
 
-  }, [children, errors, values])
+  }, [children]);
+
+  const updateFields = ()=>{
+    const newFields = fields.map((field)=>{
+      return React.cloneElement(field, {value:values[field.props.name], error:errors[field.props.name], handleChange, key:field.props.key})
+    });
+    setFields(newFields);
+  }
+
+  useEffect(()=>{
+    if(!isInit){
+      return;
+    }
+   updateFields();
+  }, [values]);
+
+  useEffect(()=>{
+    if(!isInit){
+      return;
+    }
+    updateFields();
+  },[errors]);
 
   return (
     <GridContainer>

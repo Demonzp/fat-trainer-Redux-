@@ -19,7 +19,7 @@ const signup = async (req, res) => {
         }
     } catch (err) {
         console.error(err);
-        res.status(409).json('User with this email already exists.');
+        res.status(409).json({message:'User with this email already exists.'});
     }
 };
 

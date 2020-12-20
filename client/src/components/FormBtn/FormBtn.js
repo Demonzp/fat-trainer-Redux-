@@ -2,14 +2,15 @@ import React from 'react';
 import Button from "components/CustomButtons/Button.js";
 import { ListItem } from "@material-ui/core";
 
-const FormBtn = ({ type = "button", fn = () => { }, children }) => {
+const FormBtn = ({ type = "button", fn = () => { }, isLoading, children }) => {
   return (
     <ListItem>
       <Button 
-        color="primary" 
+        color="primary"
+        disabled={isLoading ? true : false}
         type={type}
         onClick={fn}
-      >{children}</Button>
+      >{isLoading ? "loading..." : children}</Button>
     </ListItem>
   );
 }

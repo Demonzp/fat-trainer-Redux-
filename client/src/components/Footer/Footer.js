@@ -21,6 +21,9 @@ export default function Footer(props) {
         <div className={classes.left}>
           <List className={classes.list}>
             {routes.map((rout)=>{
+              if(rout.hidden){
+                return null;
+              }
               return (
                 <NavLink key={rout.name} to={rout.layout + rout.path} className={classes.item}>
                   <ListItem button className={classNames(classes.inlineBlock, classes.block, classes.nav)}>

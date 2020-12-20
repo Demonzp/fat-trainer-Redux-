@@ -2,7 +2,7 @@ import React from "react";
 
 import { useHistory } from "react-router-dom";
 
-import {Registration as Validation} from "validation/registration";
+import { Registration as Validation } from "validation/registration";
 import RoutNames from "../constants/routNames";
 import CustomTextInput from "components/FormTextField/CustomTextInput";
 
@@ -18,13 +18,13 @@ import useAuth from "hooks/useAuth";
 function SignupPage() {
   const history = useHistory();
 
-  const {lockAuthApp} = useAuth();
+  const { lockAuthApp, register } = useAuth();
 
-  function submit(values){
-    console.log('values = ', values);
-          // .then((data)=>{
-      //   history.push(`${RoutNames.verification}/?email=${values.email}`);
-      // });
+  function submit(values) {
+    register(values)
+      .then((_) => {
+        history.push(`${RoutNames.verification}?email=${values.email}`);
+      });
   }
 
   return (
@@ -33,12 +33,12 @@ function SignupPage() {
       validation={Validation}
       title="Register whis Fir Trainer App"
       subTitle="Please, enter your email and password"
-      vals={{email:'', password:'', confirmPassword:''}}
+      vals={{email: '', password: '', confirmPassword: ''}}
       isLoading={lockAuthApp}
     >
-      <EmailInput/>
-      <PasswordInput/>
-      <CustomTextInput name="confirmPassword" label="Repeat password" type="password"/>
+      <EmailInput />
+      <PasswordInput />
+      <CustomTextInput name="confirmPassword" label="Repeat password" type="password" />
       <FormBtn type="submit">Sign in</FormBtn>
       <FormNavLink
         to={RoutNames.login}

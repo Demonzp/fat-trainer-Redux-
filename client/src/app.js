@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-//import Message from "components/Message/Message";
+import Message from "components/Message/Message";
 
 import routes from "routes.js";
 
@@ -118,7 +118,7 @@ function App({...rest}) {
             {...rest}
           />
           <div className={classes.content}>
-            {/* <Message/> */}
+            <Message/>
           <div className={classes.container}>{switchRoutes()}</div>
           </div>
             <Footer routes={activRoutes}/>
