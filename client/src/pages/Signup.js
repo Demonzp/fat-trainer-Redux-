@@ -22,8 +22,8 @@ function SignupPage() {
 
   function submit(values) {
     register(values)
-      .then((_) => {
-        history.push(`${RoutNames.verification}?email=${values.email}`);
+      .then((data) => {
+        history.push(`${RoutNames.verification}?email=${values.email}&code=${data.code}`);
       });
   }
 

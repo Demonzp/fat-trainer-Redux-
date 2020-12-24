@@ -58,7 +58,8 @@ const useAuth = () => {
 
     try {
       const resData = await registerReq(data);
-      dispatch(addMessage({ type: MsgTypes.success, txt: `${resData} Please verify your email!` }));
+      dispatch(addMessage({ type: MsgTypes.success, txt: `${resData.message} Please verify your email!` }));
+      dispatch(setLockAuthApp(false));
       return resData;
     } catch (error) {
       _handlerError(error);
