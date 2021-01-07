@@ -71,7 +71,8 @@ const useAuth = () => {
 
     try {
       const resData = await loginReq(data);
-      return _setUser({ email: data.email, token: resData.token });
+      _setUser({ email: data.email, token: resData.signedToken });
+      return resData;
     } catch (error) {
       _handlerError(error);
     }

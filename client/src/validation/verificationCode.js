@@ -6,9 +6,9 @@ export function Verification(values){
     };
 
     if(!values.verificationCode){
-        errors.verificationCode = "Veryfication Code is required";
+        errors.verificationCode = 'Veryfication Code is required';
     }else if(values.verificationCode.length<=3){
-        errors.verificationCode = "Invalid Veryfication Code";
+        errors.verificationCode = 'Invalid Veryfication Code';
     }
 
     return errors;

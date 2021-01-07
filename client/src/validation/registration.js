@@ -7,9 +7,9 @@ export function Registration(values){
     };
 
     if(!values.confirmPassword){
-        errors.confirmPassword = "Confirm Password is required";
+        errors.confirmPassword = 'Confirm Password is required';
     } else if(values.confirmPassword!==values.password){
-        errors.confirmPassword = "Confirm Password needs to be equal password";
+        errors.confirmPassword = 'Confirm Password needs to be equal password';
     }
 
     return errors;

@@ -1,11 +1,4 @@
-import {guestAxios, authAxios} from "services/global";
-
-const handlerError = (error)=>{
-  if(error.response){
-    throw {message :error.response.data.message};
-  }
-  throw error;
-}
+import {guestAxios, authAxios, handlerError} from "services/global";
 
 const authReq = async (path, values)=>{
   try {

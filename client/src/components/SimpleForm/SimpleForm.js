@@ -33,7 +33,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const SimpleForm = ({submit, title, subTitle, vals, validation, children, isLoading}) => {
+const SimpleForm = ({submit, title, subTitle, vals, validation=()=>{return{}}, children, isLoading=false}) => {
   const classes = useStyles();
 
   const [fields, setFields] = useState([]);

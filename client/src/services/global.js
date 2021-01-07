@@ -15,3 +15,10 @@ export const authAxios = (token)=>{
     }
   });
 }
+
+export const handlerError = (error)=>{
+  if(error.response){
+    throw {message :error.response.data.message};
+  }
+  throw error;
+}

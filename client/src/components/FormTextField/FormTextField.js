@@ -2,7 +2,6 @@ import React from 'react';
 import { ListItem, TextField } from "@material-ui/core";
 
 const FormTextField = ({ name, label, handleChange, type = 'text', value, error, ...rest }) => {
-  
   return (
     <ListItem>
       <TextField
