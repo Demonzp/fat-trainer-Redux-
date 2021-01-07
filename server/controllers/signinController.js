@@ -9,6 +9,7 @@ const signin = async (req, res) => {
     const user = await User.findOne({ email })
     if (!user) {
         res.status(401).json({ message: 'Such user doesn\'t exist! Please registrate yourself!' });
+        return;
     }
 
     // Set JWT lifespan. 
