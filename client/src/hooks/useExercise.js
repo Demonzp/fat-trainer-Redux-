@@ -1,14 +1,41 @@
+import { useEffect } from "react";
 import MsgTypes from "../constants/msgTypes";
 import { useSelector, useDispatch } from "react-redux";
 import { addMessage } from "state/actions/msg";
-import { addExercise } from "state/actions/exercise";
+import { addExercise, loadedEx } from "state/actions/exercise";
 import { setLockAuthApp } from "state/actions/auth";
-import { createReq } from "services/exercises";
+import { createReq, getReq } from "services/exercises";
 
 const useExercise = () => {
   const { token, lockAuthApp } = useSelector(state => state.auth);
+  const { exercises, isLoaded } = useSelector(state => state.exercise);
 
   const dispatch = useDispatch();
+
+  const getExercises = () => {
+    if (!isLoaded) {
+      getReq(token)
+        .then((exercises) => {
+          dispatch(loadedEx(exercises));
+        })
+        .catch((error) => {
+          _handlerError(error);
+        });
+      // try {
+      //   const resData = await getReq(token);
+      //   dispatch(loadedEx(resData));
+      //   //dispatch(addMessage({ type: MsgTypes.success, txt: resData.message }));
+      //   return resData;
+      //   //return addExercise(resData);
+      // } catch (error) {
+      //   _handlerError(error);
+      // }
+    }
+  }
+
+  useEffect(() => {
+    getExercises();
+  }, []);
 
   const _handlerError = (error) => {
     dispatch(addMessage({ type: MsgTypes.error, txt: error.message }));
@@ -33,7 +60,9 @@ const useExercise = () => {
 
   return {
     create,
-    lockAuthApp
+    lockAuthApp,
+    exercises,
+    isLoadedEx: isLoaded
   }
 }
 
