@@ -11,13 +11,13 @@ const message = (state, action) => {
   switch (action.type) {
     case "ADD_MESSAGE":
       return {
-        msgs:[...state.msg.msgs, payload]
+        msgs:[...state.msgs, payload]
       };
 
     case 'DEL_MESSAGE':
       return {
         msgs: [
-          ...state.msg.msgs.filter((msg) => msg.id !== payload)
+          ...state.msgs.filter((msg) => msg.id !== payload)
         ]
       };
 
@@ -27,7 +27,7 @@ const message = (state, action) => {
       };
 
     default:
-      return state.msg;
+      return state;
   }
 }
 

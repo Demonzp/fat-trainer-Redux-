@@ -15,7 +15,7 @@ const auth = (state, action) => {
       const {user, token} = action.payload;
 
       return {
-        ...state.auth, 
+        ...state, 
         user, 
         authAttempted: true,
         lockAuthApp: false, 
@@ -25,20 +25,20 @@ const auth = (state, action) => {
 
     case "ROUTES_CHANGE":{
       return{
-        ...state.auth,
+        ...state,
         activRoutes: action.payload
       }
     }
 
     case "SET_LOCK_AUTH_APP":{
       return {
-        ...state.auth,
+        ...state,
         lockAuthApp: action.payload 
       }
     }
 
     default:
-      return state.auth;
+      return state;
   }
 };
 

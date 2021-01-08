@@ -9,12 +9,12 @@ const exercise = (state, action) => {
   switch (action.type) {
     case "ADD_EXERCISE": {
       return {
-        exercises:[...state.exercise.exercises,action.payload]
+        exercises:[...state.exercises, action.payload]
       }
     }
 
     default:
-      return state.exercise;
+      return state;
   }
 };
 

@@ -1,13 +1,12 @@
+import {combineReducers} from "redux";
 import auth from "./auth";
 import msg from "./msg";
 import exercise from "./exercise";
 
-const reducer = (state, action) => {
-  return {
-    auth: auth(state, action),
-    msg: msg(state, action),
-    exercise: exercise(state, action)
-  };
-};
+const reducer = combineReducers({
+  auth,
+  msg,
+  exercise,
+});
 
 export default reducer;
