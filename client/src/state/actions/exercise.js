@@ -1,4 +1,7 @@
 import { upInArray, downInArray } from "utils/global";
+import { addMessage } from "./msg";
+import MsgTypes from "constants/msgTypes.js";
+import { setLockAuthApp } from "./auth";
 
 let zIndex = 0;
 
@@ -69,10 +72,21 @@ const down = (id) => (dispatch, getState) => {
   });
 }
 
+const del = (id)=>(dispatch)=>{
+  dispatch({
+    type: "DEL_EXERCISE",
+    payload: id
+  });
+
+  dispatch(addMessage({ type: MsgTypes.success, txt: `exercise: '${id}' has been deleted` }));
+  dispatch(setLockAuthApp(false));
+}
+
 export {
   updateExs,
   addExercise,
   loadedEx,
   up,
-  down
+  down,
+  del
 }

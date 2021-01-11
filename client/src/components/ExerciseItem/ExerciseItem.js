@@ -18,7 +18,7 @@ import MoreSimpleForm from "components/MoreSimpleForm/MoreSimpleForm";
 
 const ExerciseItem = ({ exercise, isSubmit, returnVals, i }) => {
 
-  const { exercises, lockAuthApp, downExercise, upExercise } = useExercise();
+  const { exercises, lockAuthApp, downExercise, upExercise, delExercise } = useExercise();
   const [isItemSubmit, setIsItemSubmit] = useState(false);
 
   const handlerError = (_) => {
@@ -82,7 +82,7 @@ const ExerciseItem = ({ exercise, isSubmit, returnVals, i }) => {
         variant="contained"
         color="primary"
         size="large"
-      //onClick={() => delExercise(exercise.id)}
+        onClick={() => delExercise(exercise._id)}
       >
         <ClearIcon />
       </Button>

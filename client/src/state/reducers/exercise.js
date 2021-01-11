@@ -31,6 +31,20 @@ const exercise = (state, action) => {
       }
     }
 
+    case "DEL_EXERCISE":{
+      const idx = state.exercises.findIndex((ex)=>ex._id===payload);
+
+      const newExercises = [
+        ...state.exercises.slice(0, idx),
+        ...state.exercises.slice(idx+1)
+      ];
+
+      return{
+        ...state,
+        exercises: newExercises
+      }
+    }
+
     default:
       return state;
   }

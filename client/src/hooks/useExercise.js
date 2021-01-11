@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import MsgTypes from "../constants/msgTypes";
 import { useSelector, useDispatch } from "react-redux";
 import { addMessage } from "state/actions/msg";
-import { addExercise, loadedEx, updateExs, down, up} from "state/actions/exercise";
+import { addExercise, loadedEx, updateExs, down, up, del} from "state/actions/exercise";
 import { setLockAuthApp } from "state/actions/auth";
-import { createReq, getReq, updateReq } from "services/exercises";
+import { createReq, getReq, updateReq, delReq } from "services/exercises";
 
 const useExercise = () => {
   const { token, lockAuthApp } = useSelector(state => state.auth);
@@ -103,6 +103,18 @@ const useExercise = () => {
     dispatch(up(id));
   }
 
+  const delExercise = async (id)=>{
+    dispatch(setLockAuthApp(true));
+
+    try {
+      const resData = await delReq({ token, data:id });
+      dispatch(del(id));
+      return resData;
+    } catch (error) {
+      _handlerError(error);
+    }
+  }
+
 
   return {
     create,
@@ -111,6 +123,7 @@ const useExercise = () => {
     updateExercises,
     downExercise,
     upExercise,
+    delExercise,
     isLoadedEx: isLoaded
   }
 }

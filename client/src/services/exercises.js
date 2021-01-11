@@ -26,3 +26,12 @@ export const getReq = async (token) => {
     handlerError(error);
   }
 }
+
+export const delReq = async ({token, data})=>{
+  try {
+    const res = await authAxios(token).delete(`/exercise/${data}`);
+    return res.data;
+  } catch (error) {
+    handlerError(error);
+  }
+}
