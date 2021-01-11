@@ -1,127 +1,91 @@
-import React,{ useEffect } from "react";
-
-import { makeStyles } from "@material-ui/core/styles";
-import { 
-        Grid,
-        ListItem, 
-        TextField, 
-        FormControl, 
-        InputLabel, 
-        Select, 
-        MenuItem, 
-        FormHelperText,
-        Button
+import React, { useEffect, useState } from "react";
+import {
+  ListItem,
+  Button
 } from "@material-ui/core";
 
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ClearIcon from '@material-ui/icons/Clear';
 
-import UseValidationForm from "utils/useValidationForm";
-import {Exercise as Validation} from "validation/exercise";
+import { Exercise as Validation } from "validation/exercise";
 
-import {measurementTypes} from "constants/selectMeasurement";
+import { measurementTypes } from "constants/selectMeasurement";
+import FormSelectField from "components/FormSelectField/FormSelectField";
+import CustomTextInput from "components/FormTextField/CustomTextInput";
+import useExercise from "hooks/useExercise";
+import MoreSimpleForm from "components/MoreSimpleForm/MoreSimpleForm";
 
-import {useAppState} from "state/appState";
+const ExerciseItem = ({ exercise, isSubmit, returnVals, i }) => {
 
-const styles = {
-  formControl: {
-    minWidth: 200,
-    marginLeft:5,
-    marginRight:5
-  },
-};
+  const { exercises, lockAuthApp } = useExercise();
+  const [isItemSubmit, setIsItemSubmit] = useState(false);
 
-const useStyles = makeStyles(styles);
+  const handlerError = (_) => {
+    returnVals({});
+    setIsItemSubmit(false);
+  }
 
-const ExerciseItem = ({exercise, isSubmit, returnVals, i})=>{
-  const classes = useStyles();
+  const submit = (vals) => {
+    returnVals(vals);
+    setIsItemSubmit(false);
+  }
 
-  const [{exercises}, {downExercise, upExercise, delExercise}] = useAppState();
-
-  const { handleChange, values, errors, setErrors } = UseValidationForm(
-    ()=>{},
-    { 
-      id:exercise.id, 
-      name: exercise.name, 
-      measureType: exercise.measureType, 
-      zIndex: exercise.zIndex
-    },
-    Validation
-  );
-
-  useEffect(()=>{
-    if(isSubmit){
-      const err = Validation(values);
-      setErrors(err);
-      if(Object.keys(err).length === 0){
-        returnVals(values);
-      }else{
-        returnVals({});
-      }
+  useEffect(() => {
+    if (isSubmit) {
+      setIsItemSubmit(true);
     }
-  },[isSubmit]);
+  }, [isSubmit]);
 
-  return(
+  return (
     <ListItem>
-      <Grid container direction="row">
-        <TextField
-          error={errors.name ? true:false} 
-          onChange={handleChange}
-          name="name"
-          value={values.name}
-          label="Exercise Name"
-          helperText={errors.name}
-        />
-        <FormControl className={classes.formControl} error={errors.measureType ? true:false}>
-          <InputLabel id="demo-simple-select-disabled-label">Measurement type</InputLabel>
-          <Select
-            labelId="demo-simple-select-disabled-label"
-            id="demo-simple-select-disabled"
-            name="measureType"
-            value={values.measureType}
-            onChange={handleChange}
-          >
-            {measurementTypes.map((prop)=>{
-              return <MenuItem value={prop} key={prop}>{prop}</MenuItem>
-            })}
-          </Select>
-          <FormHelperText>{errors.measureType}</FormHelperText>
-        </FormControl>
-        {i>0?
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={()=>upExercise(exercise.key)}
-            className={classes.button}
-          >
-            <ArrowUpwardIcon />
-          </Button>
-          :null
-        }
-        {i<exercises.length-1?
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={()=>downExercise(exercise.key)}
-            className={classes.button}
-          >
-            <ArrowDownwardIcon />
-          </Button>
-          :null
-        }
+      <MoreSimpleForm
+        submit={submit}
+        handlerError={handlerError}
+        validation={Validation}
+        vals={{
+          _id: exercise._id,
+          name: exercise.name,
+          measureType: exercise.measureType,
+          zIndex: exercise.zIndex
+        }}
+        isLoading={lockAuthApp}
+        direction="row"
+        isSubmit={isItemSubmit}
+      >
+        <CustomTextInput name="name" label="Exercise Name" />
+        <FormSelectField name="measureType" arrValues={measurementTypes} label="Measurement type" />
+      </MoreSimpleForm>
+      {i > 0 ?
         <Button
           variant="contained"
           color="primary"
           size="large"
-          onClick={()=>delExercise(exercise.id)}
-          className={classes.button}
+        //onClick={() => upExercise(exercise.key)}
         >
-          <ClearIcon />
+          <ArrowUpwardIcon />
         </Button>
-      </Grid>
+        : null
+      }
+      {i < exercises.length - 1 ?
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+        //onClick={() => downExercise(exercise.key)}
+        >
+          <ArrowDownwardIcon />
+        </Button>
+        : null
+      }
+      <Button
+        variant="contained"
+        color="primary"
+        size="large"
+      //onClick={() => delExercise(exercise.id)}
+      >
+        <ClearIcon />
+      </Button>
     </ListItem>
   );
 }

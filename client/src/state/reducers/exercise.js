@@ -24,6 +24,13 @@ const exercise = (state, action) => {
       }
     }
 
+    case "UPDATE_EXERCISES":{
+      return{
+        ...state,
+        exercises: payload
+      }
+    }
+
     default:
       return state;
   }

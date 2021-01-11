@@ -1,7 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
+import useExercise from "hooks/useExercise";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  //ListItem,
+  List,
+} from "@material-ui/core";
+// core components
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
+import Card from "components/Card/Card.js";
+import CardHeader from "components/Card/CardHeader.js";
+import CardBody from "components/Card/CardBody.js";
+import CardFooter from "components/Card/CardFooter.js";
+import FormBtn from "components/FormBtn/FormBtn.js";
+import ExerciseItem from "components/ExerciseItem/ExerciseItem.js";
+
+const styles = {
+  cardTitleWhite: {
+    color: "#FFFFFF",
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none"
+  },
+  formControl: {
+    minWidth: 200,
+  },
+};
+
+const useStyles = makeStyles(styles);
 
 const EditExercisesPage = () => {
-  return (<div>EditExercisesPage</div>);
+  const classes = useStyles();
+
+  const [isSubmit, setIsSubmit] = useState(false);
+  const { exercises, updateExercises, lockAuthApp } = useExercise();
+
+  let newExercises = [];
+  const numExercises = exercises.length;
+  let numCallbacks = 0;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmit(true);
+  }
+
+  const returnVals = (vals) => {
+    numCallbacks++;
+
+    if(Object.keys(vals).length !== 0){
+
+      const idx = exercises.findIndex(exercise=>exercise._id===vals._id);
+      for (const key in exercises[idx]) {
+        if(exercises[idx][key]!==vals[key] && vals.hasOwnProperty(key)){
+          newExercises.push(vals);
+          break;
+        }
+      }
+    }
+
+    if (numCallbacks === numExercises) {
+      setIsSubmit(false);
+
+      if(newExercises.length>0){
+        updateExercises(newExercises);
+      }
+    }
+  };
+
+  return (
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={8}>
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Edit Exercises</h4>
+          </CardHeader>
+          <CardBody>
+            <List>
+              {exercises.map((exercise, i) => {
+                return (
+                  <ExerciseItem
+                    key={exercise._id}
+                    isSubmit={isSubmit}
+                    exercise={exercise}
+                    returnVals={returnVals}
+                    i={i}
+                  />
+                );
+              })}
+            </List>
+          </CardBody>
+          <CardFooter>
+            <List>
+              <FormBtn
+                fn={handleSubmit}
+                isLoading={lockAuthApp}
+              >
+                Edit Exercises
+              </FormBtn>
+            </List>
+          </CardFooter>
+        </Card>
+      </GridItem>
+    </GridContainer>
+  );
 }
 
 export default EditExercisesPage;

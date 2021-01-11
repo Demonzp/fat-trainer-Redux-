@@ -15,12 +15,7 @@ function SigninPage() {
 
   const { lockAuthApp, logIn } = useAuth();
 
-  // const [historyVals, setHistoryVals] = useState({
-  //   email: '', password: ''
-  // });
-
   function submit(values) {
-    //setHistoryVals(values);
     logIn(values);
   }
 

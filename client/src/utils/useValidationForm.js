@@ -1,53 +1,87 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
+
+const initState = {
+  errors: {}, 
+  isSubmitting: false
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'ON_SUBMIT':
+      return { 
+        errors: action.payload,
+        isSubmitting: true 
+      };
+    case 'OFF_SUBMIT':
+      return { 
+        ...state,
+        isSubmitting: false 
+      };
+    case 'RESET':
+      return initState;
+    default:
+      return state;
+  }
+}
 
 // Cоздаём кастомный хук UseValidationForm.
-const UseValidationForm = (callback, initialState = {}, Validation) => {
+const UseValidationForm = (callback, callbackError, initialState = {}, Validation) => {
 
-    const [values, setValues] = useState(initialState);
-    const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const [values, setValues] = useState(initialState);
+  //const [errors, setErrors] = useState({});
+  //const [isSubmitting, setIsSubmitting] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initState);
 
-    // Создаём функцию изменения.
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+  // Создаём функцию изменения.
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
-        setValues({
-            ...values,
-            [name]: value
-        });
-    };
+    setValues({
+      ...values,
+      [name]: value
+    });
+  };
 
-    // Создаём функцию отправки.
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Обработчик ошибок.
-        setErrors(Validation(values));
-        setIsSubmitting(true);
-    };
+  // Создаём функцию отправки.
+  const handleSubmit = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
 
-    const handleReset = (event) => {
+    // Обработчик ошибок.
+    //setErrors(Validation(values));
+    //setIsSubmitting(true);
+    dispatch({type: 'ON_SUBMIT', payload:Validation(values)});
+  };
 
-        setIsSubmitting(false);
-        setErrors({});
-        setValues(initialState);
-    };
+  const handleReset = (event) => {
 
-    useEffect(() => {
-        if (Object.keys(errors).length === 0 && isSubmitting) {
-            callback();
-            setIsSubmitting(false);
-        }
-    }, [errors, callback, isSubmitting]);
+    //setIsSubmitting(false);
+    //setErrors({});
+    dispatch({type: 'RESET'});
+    setValues(initialState);
+  };
 
-    return {
-        handleChange,
-        handleReset,
-        handleSubmit,
-        setValues,
-        values,
-        errors,
-        setErrors
-    };
+  useEffect(() => {
+    if (state.isSubmitting) {
+      if (Object.keys(state.errors).length === 0) {
+        callback();
+      } else {
+        callbackError(state.errors);
+      }
+      dispatch({type: 'OFF_SUBMIT'});
+    }
+
+  }, [callbackError, callback, state.isSubmitting]);
+
+  return {
+    handleChange,
+    handleReset,
+    handleSubmit,
+    setValues,
+    values,
+    errors: state.errors
+  };
 };
 
 export default UseValidationForm;
