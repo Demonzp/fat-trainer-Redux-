@@ -29,8 +29,8 @@ const parseDate = (date)=>{
     return `${date.getDate()}-${date.getMonth()+1}-${String(date.getFullYear()).slice(2)}`;
 }
 
-const downInArray = (key, array) =>{
-    const idx = array.findIndex((el)=>el.key===key);
+const downInArray = ({nameKey, key, array}) =>{
+    const idx = array.findIndex((el)=>el[nameKey]===key);
 
     if(idx>=array.length-1){
       return array;
@@ -52,8 +52,8 @@ const downInArray = (key, array) =>{
     return newArr;
 }
 
-const upInArray = (key, array) =>{
-    const idx = array.findIndex((ex)=>ex.key===key);
+const upInArray = ({nameKey, key, array}) =>{
+    const idx = array.findIndex((ex)=>ex[nameKey]===key);
 
     if(idx===0){
       return array;

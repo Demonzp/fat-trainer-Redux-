@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import MsgTypes from "../constants/msgTypes";
 import { useSelector, useDispatch } from "react-redux";
 import { addMessage } from "state/actions/msg";
-import { addExercise, loadedEx, updateExs} from "state/actions/exercise";
+import { addExercise, loadedEx, updateExs, down, up} from "state/actions/exercise";
 import { setLockAuthApp } from "state/actions/auth";
 import { createReq, getReq, updateReq } from "services/exercises";
 
@@ -95,11 +95,22 @@ const useExercise = () => {
     }
   }
 
+  const downExercise = (id)=>{
+    dispatch(down(id));
+  }
+
+  const upExercise = (id)=>{
+    dispatch(up(id));
+  }
+
+
   return {
     create,
     lockAuthApp,
     exercises,
     updateExercises,
+    downExercise,
+    upExercise,
     isLoadedEx: isLoaded
   }
 }

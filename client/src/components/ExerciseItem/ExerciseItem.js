@@ -18,7 +18,7 @@ import MoreSimpleForm from "components/MoreSimpleForm/MoreSimpleForm";
 
 const ExerciseItem = ({ exercise, isSubmit, returnVals, i }) => {
 
-  const { exercises, lockAuthApp } = useExercise();
+  const { exercises, lockAuthApp, downExercise, upExercise } = useExercise();
   const [isItemSubmit, setIsItemSubmit] = useState(false);
 
   const handlerError = (_) => {
@@ -61,7 +61,7 @@ const ExerciseItem = ({ exercise, isSubmit, returnVals, i }) => {
           variant="contained"
           color="primary"
           size="large"
-        //onClick={() => upExercise(exercise.key)}
+          onClick={() => upExercise(exercise._id)}
         >
           <ArrowUpwardIcon />
         </Button>
@@ -72,7 +72,7 @@ const ExerciseItem = ({ exercise, isSubmit, returnVals, i }) => {
           variant="contained"
           color="primary"
           size="large"
-        //onClick={() => downExercise(exercise.key)}
+          onClick={() => downExercise(exercise._id)}
         >
           <ArrowDownwardIcon />
         </Button>

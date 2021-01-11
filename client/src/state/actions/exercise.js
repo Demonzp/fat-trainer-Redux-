@@ -1,3 +1,5 @@
+import { upInArray, downInArray } from "utils/global";
+
 let zIndex = 0;
 
 const newExercise = (ex) => {
@@ -41,12 +43,36 @@ const updateExs = (arrEx) => (dispatch, getState) => {
       ...newExercises.slice(idx + 1)
     ];
   });
-  
+
   dispatch({ type: "UPDATE_EXERCISES", payload: newExercises });
+}
+
+const up = (id) => (dispatch, getState) => {
+  dispatch({
+    type: "UPDATE_EXERCISES",
+    payload: upInArray({
+      nameKey: '_id',
+      key: id,
+      array: getState().exercise.exercises
+    })
+  });
+}
+
+const down = (id) => (dispatch, getState) => {
+  dispatch({
+    type: "UPDATE_EXERCISES",
+    payload: downInArray({
+      nameKey: '_id',
+      key: id,
+      array: getState().exercise.exercises
+    })
+  });
 }
 
 export {
   updateExs,
   addExercise,
-  loadedEx
+  loadedEx,
+  up,
+  down
 }
