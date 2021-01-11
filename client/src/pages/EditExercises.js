@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import useExercise from "hooks/useExercise";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  //ListItem,
-  List,
-} from "@material-ui/core";
+import { List } from "@material-ui/core";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -50,11 +47,11 @@ const EditExercisesPage = () => {
   const returnVals = (vals) => {
     numCallbacks++;
 
-    if(Object.keys(vals).length !== 0){
+    if (Object.keys(vals).length !== 0) {
 
-      const idx = exercises.findIndex(exercise=>exercise._id===vals._id);
+      const idx = exercises.findIndex(exercise => exercise._id === vals._id);
       for (const key in exercises[idx]) {
-        if(exercises[idx][key]!==vals[key] && vals.hasOwnProperty(key)){
+        if (exercises[idx][key] !== vals[key] && vals.hasOwnProperty(key)) {
           newExercises.push(vals);
           break;
         }
@@ -64,7 +61,7 @@ const EditExercisesPage = () => {
     if (numCallbacks === numExercises) {
       setIsSubmit(false);
 
-      if(newExercises.length>0){
+      if (newExercises.length > 0) {
         updateExercises(newExercises);
       }
     }
