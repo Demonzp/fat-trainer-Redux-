@@ -1,135 +1,89 @@
-import React,{ useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { 
-        Grid,
-        ListItem, 
-        TextField,
-        Button
+import {
+  Grid,
+  ListItem
 } from "@material-ui/core";
 
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ClearIcon from '@material-ui/icons/Clear';
+import { Exercise as Validation } from "validation/workoutEx.js";
 
-import UseValidationForm from "utils/useValidationForm";
-import {Exercise as Validation} from "validation/exercise";
+import CustomTextInput from "components/FormTextField/CustomTextInput";
+import MoreSimpleForm from "components/MoreSimpleForm/MoreSimpleForm";
+import ExerciseBtns from "components/ExercisesBtns/ExerciseBtns";
 
 const styles = {
-  exItem:{
-    marginRight:5
+  exItem: {
+    marginRight: 5
   }
 };
 
 const useStyles = makeStyles(styles);
 
-const WorkoutExItem = ({exercise, isSubmit, returnVals, delEx, downExercise, upExercise})=>{
+const WorkoutExItem = ({ exercise, isSubmit, returnVals, i, workoutExs, delExercise, upExercise, downExercise}) => {
   const classes = useStyles();
 
-  const { handleChange, values, errors, setErrors } = UseValidationForm(
-    ()=>{},
-    { 
-      id:exercise.id, 
-      name: exercise.name,
-      repeats:exercise.repeats,
-      measurment:exercise.measurment
-    },
-    Validation
-  );
-
-  useEffect(()=>{
-    if(isSubmit){
-      const err = Validation(values);
-      setErrors(err);
-      if(Object.keys(err).length === 0){
-        returnVals(values);
-      }else{
-        returnVals({},err);
-      }
-    }
-  },[isSubmit]);
-
-  const getText = (val)=>{
-    if(val==="Kilograms"){
+  const getText = (val) => {
+    if (val === "Kilograms") {
       return "kg";
-    }else if(val==="Meters"){
+    } else if (val === "Meters") {
       return "m";
-    }else if(val==="Minutes"){
+    } else if (val === "Minutes") {
       return "min";
-    }else{
-      return "unknoun";
+    } else {
+      return "unknown";
     }
   }
 
-  return(
+  const handlerError = (_)=>{
+    returnVals({});
+  }
+
+  return (
     <ListItem>
-      <Grid container direction="row">
-        <TextField
-          className={classes.exItem}
-          disabled
-          error={errors.name ? true:false} 
-          onChange={handleChange}
-          name="name"
-          value={values.name}
-          label="Exercise Name"
-          helperText={errors.name}
+      <MoreSimpleForm
+        submit={returnVals}
+        handlerError={handlerError}
+        validation={Validation}
+        vals={{
+          _id: exercise._id,
+          name: exercise.name,
+          zIndex: exercise.zIndex,
+          repeats: 0,
+          measurment: 0
+        }}
+        //isLoading={lockAuthApp}
+        direction="row"
+        isSubmit={isSubmit}
+      >
+        <CustomTextInput disabled name="name" label="Exercise Name"/>
+        <CustomTextInput 
+          style={{maxWidth:'120px'}} 
+          name="repeats" 
+          label="Repeats" 
         />
-        <TextField
-          className={classes.exItem}
-          error={errors.repeats ? true:false} 
-          onChange={handleChange}
-          name="repeats"
-          value={values.repeats}
-          label="Repeats"
-          helperText={errors.repeats}
-        />
-        <TextField
-          className={classes.exItem}
-          error={errors.measurment ? true:false} 
-          onChange={handleChange}
+        <CustomTextInput
           name="measurment"
-          value={values.measurment}
           label="Measurment"
-          helperText={errors.measurment}
         />
-        <Grid
-          container
-          item
-          xs={1}
-          justify="center"
-          alignItems="center"
-          className={classes.exItem}
-        >
-          <span>{getText(exercise.measureType)}</span>
-        </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          onClick={()=>{upExercise(exercise.key)}}
-          className={classes.button}
-        >
-          <ArrowUpwardIcon />
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          onClick={()=>{downExercise(exercise.key)}}
-          className={classes.button}
-        >
-          <ArrowDownwardIcon />
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          onClick={()=>{delEx(exercise.key)}}
-          className={classes.button}
-        >
-          <ClearIcon />
-        </Button>
+      </MoreSimpleForm>
+      <Grid
+        container
+        item
+        xs={1}
+        justify="center"
+        alignItems="center"
+        className={classes.exItem}
+      >
+        <span>{getText(exercise.measureType)}</span>
       </Grid>
+      <ExerciseBtns
+        i={i}
+        length={workoutExs.length}
+        up={()=>{upExercise(exercise._id)}}
+        down={()=>{downExercise(exercise._id)}}
+        del={()=>{delExercise(exercise._id)}}
+      />
     </ListItem>
   );
 }

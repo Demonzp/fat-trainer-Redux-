@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   ListItem,
-  Button
 } from "@material-ui/core";
-
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ClearIcon from '@material-ui/icons/Clear';
 
 import { Exercise as Validation } from "validation/exercise";
 
@@ -15,27 +10,19 @@ import FormSelectField from "components/FormSelectField/FormSelectField";
 import CustomTextInput from "components/FormTextField/CustomTextInput";
 import useExercise from "hooks/useExercise";
 import MoreSimpleForm from "components/MoreSimpleForm/MoreSimpleForm";
+import ExerciseBtns from "components/ExercisesBtns/ExerciseBtns";
 
 const ExerciseItem = ({ exercise, isSubmit, returnVals, i }) => {
 
   const { exercises, lockAuthApp, downExercise, upExercise, delExercise } = useExercise();
-  const [isItemSubmit, setIsItemSubmit] = useState(false);
 
   const handlerError = (_) => {
     returnVals({});
-    setIsItemSubmit(false);
   }
 
   const submit = (vals) => {
     returnVals(vals);
-    setIsItemSubmit(false);
   }
-
-  useEffect(() => {
-    if (isSubmit) {
-      setIsItemSubmit(true);
-    }
-  }, [isSubmit]);
 
   return (
     <ListItem>
@@ -51,41 +38,18 @@ const ExerciseItem = ({ exercise, isSubmit, returnVals, i }) => {
         }}
         isLoading={lockAuthApp}
         direction="row"
-        isSubmit={isItemSubmit}
+        isSubmit={isSubmit}
       >
         <CustomTextInput name="name" label="Exercise Name" />
         <FormSelectField name="measureType" arrValues={measurementTypes} label="Measurement type" />
       </MoreSimpleForm>
-      {i > 0 ?
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          onClick={() => upExercise(exercise._id)}
-        >
-          <ArrowUpwardIcon />
-        </Button>
-        : null
-      }
-      {i < exercises.length - 1 ?
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          onClick={() => downExercise(exercise._id)}
-        >
-          <ArrowDownwardIcon />
-        </Button>
-        : null
-      }
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        onClick={() => delExercise(exercise._id)}
-      >
-        <ClearIcon />
-      </Button>
+      <ExerciseBtns
+        i={i}
+        length={exercises.length}
+        up={() => upExercise(exercise._id)}
+        down={() => downExercise(exercise._id)}
+        del={() => delExercise(exercise._id)}
+      />
     </ListItem>
   );
 }

@@ -49,11 +49,16 @@ const useExercise = () => {
   }
 
   const updateExercises = async (data)=>{
+    console.log('updateExercises = ', data);
+    if(data.length<=0){
+      return;
+    }
+
     dispatch(setLockAuthApp(true));
 
     const arrResUpdate = [];
     const arrErrUpdate = [];
-
+    //console.log('updateExercises = ', data);
     for (const exercise of data) {
       try {
         const resData = await updateReq({token, data:exercise});

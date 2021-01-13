@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import useExercise from "hooks/useExercise";
+import useArrCallback from "hooks/useArrCallback";
 import { makeStyles } from "@material-ui/core/styles";
 import { List } from "@material-ui/core";
 // core components
@@ -32,40 +33,27 @@ const useStyles = makeStyles(styles);
 const EditExercisesPage = () => {
   const classes = useStyles();
 
-  const [isSubmit, setIsSubmit] = useState(false);
   const { exercises, updateExercises, lockAuthApp } = useExercise();
 
-  let newExercises = [];
-  const numExercises = exercises.length;
-  let numCallbacks = 0;
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmit(true);
-  }
-
-  const returnVals = (vals) => {
-    numCallbacks++;
-
-    if (Object.keys(vals).length !== 0) {
-
-      const idx = exercises.findIndex(exercise => exercise._id === vals._id);
-      for (const key in exercises[idx]) {
-        if (exercises[idx][key] !== vals[key] && vals.hasOwnProperty(key)) {
-          newExercises.push(vals);
-          break;
+  const callback = (vals)=>{
+    updateExercises(vals.filter((ex)=>{
+      if (Object.keys(ex).length !== 0) {
+        const idx = exercises.findIndex(exercise => exercise._id === ex._id);
+        for (const key in exercises[idx]) {
+          if (exercises[idx][key] !== ex[key] && ex.hasOwnProperty(key)) {
+            return true;
+          }
         }
       }
-    }
-
-    if (numCallbacks === numExercises) {
-      setIsSubmit(false);
-
-      if (newExercises.length > 0) {
-        updateExercises(newExercises);
-      }
-    }
+      return false;
+    }));
   };
+
+  const {
+    isSubmit, 
+    handleSubmit, 
+    returnVals
+  } = useArrCallback({length: exercises.length, callback});
 
   return (
     <GridContainer>
