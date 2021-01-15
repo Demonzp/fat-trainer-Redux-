@@ -7,16 +7,21 @@ const getDashboardRoutes = ()=>{
   return routes.filter((rout)=> rout.middelware==='auth');
 }
 
-const attempt = ({ token, user }) => (dispatch) => {
+const setToken = (token)=>(dispatch)=>{
+  dispatch({
+    type: "SET_TOKEN",
+    payload:token
+  });
+  dispatch(setLockAuthApp(false));
+}
+
+const attempt = (props) => (dispatch) => {
   dispatch({
     type: "AUTH_CHANGE",
-    payload:{
-      user,
-      token
-    }
+    payload:props
   });
 
-  if(user){
+  if(props.user){
     dispatch({
       type:"ROUTES_CHANGE",
       payload:getDashboardRoutes()
@@ -40,5 +45,6 @@ const setLockAuthApp = (status) => (dispatch)=>{
 
 export {
   attempt,
-  setLockAuthApp
+  setLockAuthApp,
+  setToken
 }

@@ -4,36 +4,47 @@ const auth = (state, action) => {
     return {
       authAttempted: false,
       lockAuthApp: false,
-      token: '',
+      token: null,
       user: null,
-      activRoutes:[]
+      activRoutes:[],
+      dataLoaded: false
     };
   }
 
+  const payload = action.payload;
+
   switch (action.type) {
     case "AUTH_CHANGE": {
-      const {user, token} = action.payload;
+      const {user, token, dataLoaded} = payload;
 
       return {
         ...state, 
         user, 
         authAttempted: true,
         lockAuthApp: false, 
-        token 
+        token,
+        dataLoaded
       }
     }
 
     case "ROUTES_CHANGE":{
       return{
         ...state,
-        activRoutes: action.payload
+        activRoutes: payload
+      }
+    }
+
+    case "SET_TOKEN":{
+      return {
+        ...state,
+        token: payload
       }
     }
 
     case "SET_LOCK_AUTH_APP":{
       return {
         ...state,
-        lockAuthApp: action.payload 
+        lockAuthApp: payload 
       }
     }
 

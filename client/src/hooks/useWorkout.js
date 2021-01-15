@@ -9,8 +9,7 @@ const useWorkout = (action)=>{
   const location = useLocation();
   const history = useHistory();
   const {date=null} = getUrlParams(location);
-  const {workouts, exercises, lockAuthApp, createWorkout, editWorkout, isLoadedW,
-    isLoadedE } = useWorkouts();
+  const {workouts, exercises, lockAuthApp, createWorkout, editWorkout, dataLoaded } = useWorkouts();
 
   const [pickDate, setPickDate] = useState(new Date());
   const [workoutExs, setWorkoutExs] = useState([]);
@@ -119,8 +118,7 @@ const useWorkout = (action)=>{
     delExercise,
     setWorkoutExs,
     setIdWorkout,
-    isLoadedW,
-    isLoadedE
+    dataLoaded
   }
 
 }

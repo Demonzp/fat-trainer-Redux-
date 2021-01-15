@@ -11,7 +11,7 @@ const authReq = async (path, values)=>{
 
 export const attemptReq = async (token)=>{
   try {
-    const res = await authAxios(token).get('/users');
+    const res = await authAxios(token).get('/user');
     return res.data;
   } catch (error) {
     handlerError(error);

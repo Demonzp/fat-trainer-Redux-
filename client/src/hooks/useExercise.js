@@ -8,25 +8,26 @@ import { createReq, getReq, updateReq, delReq } from "services/exercises";
 
 const useExercise = () => {
   const { token, lockAuthApp } = useSelector(state => state.auth);
-  const { exercises, isLoaded } = useSelector(state => state.exercise);
+  const { exercises } = useSelector(state => state.exercise);
 
   const dispatch = useDispatch();
 
-  const getExercises = () => {
-    if (!isLoaded) {
-      getReq(token)
-        .then((exercises) => {
-          dispatch(loadedEx(exercises));
-        })
-        .catch((error) => {
-          _handlerError(error);
-        });
-    }
+  const setExercises = (exercises) => {
+    dispatch(loadedEx(exercises));
+    // if (!isLoaded) {
+    //   getReq(token)
+    //     .then((exercises) => {
+    //       dispatch(loadedEx(exercises));
+    //     })
+    //     .catch((error) => {
+    //       _handlerError(error);
+    //     });
+    // }
   }
 
-  useEffect(() => {
-    getExercises();
-  }, []);
+  // useEffect(() => {
+  //   getExercises();
+  // }, []);
 
   const _handlerError = (error) => {
     dispatch(addMessage({ type: MsgTypes.error, txt: error.message }));
@@ -125,11 +126,11 @@ const useExercise = () => {
     create,
     lockAuthApp,
     exercises,
+    setExercises,
     updateExercises,
     downExercise,
     upExercise,
-    delExercise,
-    isLoaded
+    delExercise
   }
 }
 

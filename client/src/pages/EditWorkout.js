@@ -40,8 +40,7 @@ const EditWorkoutPage = () => {
     downExercise,
     delExercise,
     setIdWorkout,
-    isLoadedW,
-    isLoadedE
+    dataLoaded
   } = useWorkout('edit');
 
   const [isSetDate, setIsSetDate] = useState(false);
@@ -52,8 +51,9 @@ const EditWorkoutPage = () => {
       return;
     }
 
-    if(!isLoadedE || !isLoadedW){
-      console.log(isLoadedE ,'||',isLoadedW);
+    console.log('dataLoaded = ', dataLoaded);
+
+    if(!dataLoaded){
       return;
     }
 
@@ -66,7 +66,7 @@ const EditWorkoutPage = () => {
     setIdWorkout(selectWork._id);
     setWorkoutExs(getFullExercises(selectWork.exercises, exercises));
     
-  },[pickDate, isLoadedE, isLoadedW]);
+  },[pickDate, dataLoaded]);
 
   return (
     <WorkoutPage

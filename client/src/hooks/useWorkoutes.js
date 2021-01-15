@@ -8,9 +8,9 @@ import MsgTypes from "../constants/msgTypes.js";
 import useExercise from "./useExercise.js";
 
 const useWorkouts = () => {
-  const { workouts, isLoaded: isLoadedW } = useSelector(state => state.workout);
-  const { token, lockAuthApp } = useSelector(state => state.auth);
-  const { exercises, isLoaded: isLoadedE } = useExercise();
+  const { workouts } = useSelector(state => state.workout);
+  const { token, lockAuthApp, dataLoaded } = useSelector(state => state.auth);
+  const { exercises } = useExercise();
 
   const dispatch = useDispatch();
 
@@ -20,21 +20,22 @@ const useWorkouts = () => {
     throw error;
   }
 
-  const getWorkouts = () => {
-    if (!isLoadedW) {
-      getReq(token)
-        .then((workouts) => {
-          dispatch(loaded(workouts));
-        })
-        .catch((error) => {
-          _handlerError(error);
-        });
-    }
+  const setWorkouts = (workouts) => {
+    // if (!isLoadedW) {
+    //   getReq(token)
+    //     .then((workouts) => {
+    //       dispatch(loaded(workouts));
+    //     })
+    //     .catch((error) => {
+    //       _handlerError(error);
+    //     });
+    // }
+    dispatch(loaded(workouts));
   }
 
-  useEffect(() => {
-    getWorkouts();
-  }, []);
+  // useEffect(() => {
+  //   getWorkouts();
+  // }, []);
 
   const createWorkout = async (workout) => {
     dispatch(setLockAuthApp(true));
@@ -61,11 +62,11 @@ const useWorkouts = () => {
   return {
     workouts,
     exercises,
+    setWorkouts,
     createWorkout,
     editWorkout,
     lockAuthApp,
-    isLoadedW,
-    isLoadedE
+    dataLoaded
   }
 }
 
