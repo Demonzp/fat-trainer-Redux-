@@ -49,8 +49,8 @@ const WorkoutExItem = ({ exercise, isSubmit, returnVals, i, workoutExs, delExerc
           _id: exercise._id,
           name: exercise.name,
           zIndex: exercise.zIndex,
-          repeats: 0,
-          measurment: 0
+          repeats: exercise.repeats,
+          measurment: exercise.measurment
         }}
         //isLoading={lockAuthApp}
         direction="row"

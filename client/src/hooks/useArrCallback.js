@@ -9,6 +9,7 @@ const useArrCallback = ({ length, callback }) => {
   //const [maxNum, _] = useState(length);
 
   const handleSubmit = (e) => {
+    console.log('nen!!');
     e.preventDefault();
     setIsSubmit(true);
   }

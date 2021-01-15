@@ -3,17 +3,18 @@ import {useLocation, useHistory} from "react-router-dom";
 import useWorkouts from "./useWorkoutes.js";
 import {getUrlParams, downInArray, upInArray} from "utils/global.js";
 import useArrCallback from "hooks/useArrCallback";
-import exercise from "state/reducers/exercise.js";
 
-const useWorkout = ()=>{
+const useWorkout = (action)=>{
   
   const location = useLocation();
   const history = useHistory();
   const {date=null} = getUrlParams(location);
-  const {exercises, lockAuthApp, createWorkout} = useWorkouts();
+  const {workouts, exercises, lockAuthApp, createWorkout, editWorkout, isLoadedW,
+    isLoadedE } = useWorkouts();
 
   const [pickDate, setPickDate] = useState(new Date());
   const [workoutExs, setWorkoutExs] = useState([]);
+  const [idWorkout, setIdWorkout] = useState();
 
   const [open, setOpen] = useState(false);
 
@@ -48,6 +49,7 @@ const useWorkout = ()=>{
   };
 
   const callback = (arrVals)=>{
+    console.log('callback = ', arrVals);
     let isError = false;
 
     for(const vals of arrVals){
@@ -58,10 +60,19 @@ const useWorkout = ()=>{
     }
 
     if(!isError){
-      createWorkout({
-        date:pickDate,
-        exercises:arrVals
-      });
+      if(action==='new'){
+        createWorkout({
+          date:pickDate,
+          exercises:arrVals
+        });
+      }else if(action==='edit'){
+        editWorkout({
+          _id:idWorkout,
+          date:pickDate,
+          exercises:arrVals
+        });
+      }
+      
     }
   };
 
@@ -92,6 +103,8 @@ const useWorkout = ()=>{
   }
 
   return {
+    workouts,
+    exercises,
     handleClickOpen,
     handleClose,
     handleSubmit,
@@ -103,7 +116,11 @@ const useWorkout = ()=>{
     returnVals,
     upExercise,
     downExercise,
-    delExercise
+    delExercise,
+    setWorkoutExs,
+    setIdWorkout,
+    isLoadedW,
+    isLoadedE
   }
 
 }

@@ -29,7 +29,7 @@ const useExercise = () => {
   }, []);
 
   const _handlerError = (error) => {
-    dispatch(addMessage({ type: MsgTypes.error, txt: error }));
+    dispatch(addMessage({ type: MsgTypes.error, txt: error.message }));
     dispatch(setLockAuthApp(false));
     throw error;
   }
@@ -129,7 +129,7 @@ const useExercise = () => {
     downExercise,
     upExercise,
     delExercise,
-    isLoadedEx: isLoaded
+    isLoaded
   }
 }
 

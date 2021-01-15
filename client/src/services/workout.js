@@ -17,3 +17,12 @@ export const getReq = async (token)=>{
     handlerError(error);
   }
 }
+
+export const editReq = async ({token, data})=>{
+  try {
+    const res = await authAxios(token).put(`/workout/${data._id}`, data);
+    return res.data;
+  } catch (error) {
+    handlerError(error);
+  }
+}

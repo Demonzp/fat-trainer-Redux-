@@ -1,28 +1,27 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createReq, getReq } from "services/workout";
+import { createReq, getReq, editReq } from "services/workout";
 import { setLockAuthApp } from "state/actions/auth";
 import { addMessage } from "state/actions/msg";
-import { addWorkout, loaded } from "state/actions/workout";
+import { addWorkout, loaded, edit } from "state/actions/workout";
 import MsgTypes from "../constants/msgTypes.js";
 import useExercise from "./useExercise.js";
 
 const useWorkouts = () => {
-  const { workouts, isLoaded } = useSelector(state => state.workout);
+  const { workouts, isLoaded: isLoadedW } = useSelector(state => state.workout);
   const { token, lockAuthApp } = useSelector(state => state.auth);
-  const {exercises} = useExercise();
-  //const { exercises } = useSelector(state => state.exercise);
+  const { exercises, isLoaded: isLoadedE } = useExercise();
 
   const dispatch = useDispatch();
 
   const _handlerError = (error) => {
-    dispatch(addMessage({ type: MsgTypes.error, txt: error }));
+    dispatch(addMessage({ type: MsgTypes.error, txt: error.message }));
     dispatch(setLockAuthApp(false));
     throw error;
   }
 
   const getWorkouts = () => {
-    if (!isLoaded) {
+    if (!isLoadedW) {
       getReq(token)
         .then((workouts) => {
           dispatch(loaded(workouts));
@@ -48,11 +47,25 @@ const useWorkouts = () => {
     }
   }
 
+  const editWorkout = async (workout) => {
+    dispatch(setLockAuthApp(true));
+    console.log('editWorkout = ', workout);
+    try {
+      const resData = await editReq({ token, data: workout });
+      dispatch(edit(resData));
+    } catch (error) {
+      _handlerError(error);
+    }
+  }
+
   return {
     workouts,
     exercises,
     createWorkout,
-    lockAuthApp
+    editWorkout,
+    lockAuthApp,
+    isLoadedW,
+    isLoadedE
   }
 }
 

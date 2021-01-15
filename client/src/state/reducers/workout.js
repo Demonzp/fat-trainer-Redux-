@@ -25,6 +25,17 @@ const workout = (state, action) => {
         isLoaded: true
       }
     }
+    case "EDIT_WORKOUT":{
+      const idx = state.workouts.findIndex((work)=>work._id===payload._id);
+      return{
+        ...state,
+        workouts:[
+          ...state.workouts.slice(0, idx),
+          payload,
+          ...state.workouts.slice(idx+1)
+        ]
+      }
+    }
 
     default:
       return state;

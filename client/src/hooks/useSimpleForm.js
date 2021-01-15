@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UseValidationForm from "utils/useValidationForm.js";
 
-const useSimpleForm = ({ handlerError, submit, vals, validation, children, isLoading, isSubmit=false }) => {
+const useSimpleForm = ({ handlerError = ()=>{}, submit, vals, validation, children, isLoading, isSubmit=false }) => {
   const [fields, setFields] = useState([]);
   const [btns, setBtns] = useState([]);
   const [navs, setNavs] = useState([]);
