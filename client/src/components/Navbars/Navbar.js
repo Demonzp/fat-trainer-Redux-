@@ -26,7 +26,7 @@ export default function Header(props) {
   const {user, logOut} = useAuth();
 
   function makeBrand() {
-    var name;
+    let name;
     props.routes.map(prop => {
       if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
         name = props.rtlActive ? prop.rtlName : prop.name;
