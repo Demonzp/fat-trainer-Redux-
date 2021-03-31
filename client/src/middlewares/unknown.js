@@ -5,12 +5,11 @@ import useAuth from "hooks/useAuth";
 import Spinner from "components/Spinner";
 import RoutNames from "../constants/routNames";
 
-const UnknownRoute = ({...rest})=> {
+const UnknownRoute = ()=> {
   const { authAttempted, user } = useAuth();
 
   return (
     <Route
-      {...rest}
         children={({ location }) => (
           authAttempted
           ?

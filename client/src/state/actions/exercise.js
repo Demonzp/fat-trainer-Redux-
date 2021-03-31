@@ -2,6 +2,11 @@ import { upInArray, downInArray } from "utils/global";
 import { addMessage } from "./msg";
 import MsgTypes from "constants/msgTypes.js";
 import { setLockAuthApp } from "./auth";
+import { FETCH_EXERCISE,
+  ADD_EXERCISE,
+  UPDATE_EXERCISES,
+  DEL_EXERCISE
+} from "state/reducers/exercise";
 
 let zIndex = 0;
 
@@ -22,14 +27,14 @@ const loadedEx = (exs) => (dispatch) => {
   });
 
   dispatch({
-    type: "FETCH_EXERCISE",
+    type: FETCH_EXERCISE,
     payload: newExs
   });
 }
 
 const addExercise = (exercise) => (dispatch) => {
   dispatch({
-    type: "ADD_EXERCISE",
+    type: ADD_EXERCISE,
     payload: newExercise(exercise)
   });
 }
@@ -47,12 +52,12 @@ const updateExs = (arrEx) => (dispatch, getState) => {
     ];
   });
 
-  dispatch({ type: "UPDATE_EXERCISES", payload: newExercises });
+  dispatch({ type: UPDATE_EXERCISES, payload: newExercises });
 }
 
 const up = (id) => (dispatch, getState) => {
   dispatch({
-    type: "UPDATE_EXERCISES",
+    type: UPDATE_EXERCISES,
     payload: upInArray({
       nameKey: '_id',
       key: id,
@@ -63,7 +68,7 @@ const up = (id) => (dispatch, getState) => {
 
 const down = (id) => (dispatch, getState) => {
   dispatch({
-    type: "UPDATE_EXERCISES",
+    type: UPDATE_EXERCISES,
     payload: downInArray({
       nameKey: '_id',
       key: id,
@@ -74,7 +79,7 @@ const down = (id) => (dispatch, getState) => {
 
 const del = (id)=>(dispatch)=>{
   dispatch({
-    type: "DEL_EXERCISE",
+    type: DEL_EXERCISE,
     payload: id
   });
 

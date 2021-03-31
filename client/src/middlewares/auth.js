@@ -10,14 +10,13 @@ const AuthRoute = ({component:Component, ...rest})=> {
 
   return (
     <Route
-      {...rest}
       children={({ location }) => (
       authAttempted
       ?
       (
         user
         ?
-        <Component/>
+        <Component {...rest}/>
         :
         <Redirect
           to={{
