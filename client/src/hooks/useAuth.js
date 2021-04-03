@@ -7,23 +7,29 @@ import { addMessage } from "state/actions/msg";
 import useExercise from "./useExercise";
 import useWorkouts from "./useWorkoutes";
 
-
 let goForUser = false;
 
+const _getToken = () => {
+  let t_token = localStorage.getItem('token');
+  if (!t_token) {
+    throw new Error('token does not exist');
+  }
+  return t_token;
+}
+
 const useAuth = () => {
-  const { authAttempted, lockAuthApp, user, token, activRoutes, dataLoaded } = useSelector(state => state.auth);
-  const {setExercises} = useExercise();
-  const {setWorkouts} = useWorkouts();
+  const { authAttempted, lockAuthApp, user, token, activRoutes } = useSelector(state => state.auth);
+  const { setExercises } = useExercise();
+  const { setWorkouts } = useWorkouts();
 
   const dispatch = useDispatch();
 
-  const _setToken = (token) => {
-    dispatch(setToken(token));
-
+  const _setToken = async (token) => {
     localStorage.setItem('token', token);
+    dispatch(setToken(token));
   }
 
-  const _setUser = ({user, token}) => {
+  const _setUser = ({ user, token }) => {
     console.log('user = ', user);
     dispatch(attempt({
       user,
@@ -43,36 +49,29 @@ const useAuth = () => {
     }));
   }
 
-  const initAuth = async (token) => {
-    let t_token = localStorage.getItem('token');
-
-    if(token){
-      t_token = token;
-    }
-
-    if (t_token) {
-      try {
-        const resData = await attemptReq(t_token);
-        if (!resData.email) {
-          throw new Error('Something went wrong...!');
-        }
-        _setUser({user:resData, token:t_token});
-        return resData;
-      } catch (error) {
-        localStorage.clear();
-        console.error(error);
+  const initAuth = async () => {
+    try {
+      const t_token = _getToken();
+      const resData = await attemptReq(t_token);
+      if (!resData.email) {
+        throw new Error('Something went wrong...!');
       }
+      _setUser({ user: resData, token: t_token });
+      return;
+    } catch (error) {
+      localStorage.clear();
+      console.error(error);
     }
     goForUser = false;
     _setGuest();
   }
 
   useEffect(() => {
-    if (token && !user && !goForUser) {
+    if (!goForUser) {
       goForUser = true;
-      initAuth(token);
+      initAuth();
     }
-  }, [token, user]);
+  }, [token]);
 
   const _handlerError = (error) => {
     dispatch(addMessage({ type: MsgTypes.error, txt: error.message }));
@@ -106,6 +105,7 @@ const useAuth = () => {
   }
 
   const logOut = async () => {
+    goForUser = false;
     dispatch(setLockAuthApp(true));
     localStorage.clear();
     _setGuest();
@@ -133,7 +133,6 @@ const useAuth = () => {
     token,
     lockAuthApp,
     logIn,
-    initAuth,
     logOut,
     register,
     activRoutes,

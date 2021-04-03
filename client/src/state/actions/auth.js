@@ -46,5 +46,5 @@ const setLockAuthApp = (status) => (dispatch)=>{
 export {
   attempt,
   setLockAuthApp,
-  setToken
+  setToken,
 }

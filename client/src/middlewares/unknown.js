@@ -7,7 +7,6 @@ import RoutNames from "../constants/routNames";
 
 const UnknownRoute = ()=> {
   const { authAttempted, user } = useAuth();
-
   return (
     <Route
         children={({ location }) => (

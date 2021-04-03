@@ -10,6 +10,7 @@ import NewWorkoutPage from "pages/NewWorkout";
 import EditWorkoutPage from "pages/EditWorkout";
 
 import RoutNames from "./constants/routNames";
+import RouteMiddlewares from "./constants/routeMiddlewares";
 
 const Routes = [
     {
@@ -18,7 +19,7 @@ const Routes = [
       icon: Dashboard,
       component: SigninPage,
       layout: "",
-      middelware:"guest",
+      middelware:RouteMiddlewares.guest,
       hidden: false
     },
     {
@@ -27,7 +28,7 @@ const Routes = [
       icon: Person,
       component: SignupPage,
       layout: "",
-      middelware:"guest",
+      middelware:RouteMiddlewares.guest,
       hidden: false
     },
     {
@@ -36,7 +37,7 @@ const Routes = [
       icon: Person,
       component: VerificationPage,
       layout: "",
-      middelware:"guest",
+      middelware:RouteMiddlewares.guest,
       hidden: true
     },
     {
@@ -45,7 +46,7 @@ const Routes = [
       icon: Person,
       component: DashboardPage,
       layout: "",
-      middelware:"auth",
+      middelware:RouteMiddlewares.auth,
       hidden: false
     },
     {
@@ -54,7 +55,7 @@ const Routes = [
       icon: Person,
       component: NewExercisePage,
       layout: "",
-      middelware:"auth",
+      middelware:RouteMiddlewares.auth,
       hidden: false
     },
     {
@@ -63,7 +64,7 @@ const Routes = [
       icon: Person,
       component: EditExercisesPage,
       layout: "",
-      middelware:"auth",
+      middelware:RouteMiddlewares.auth,
       hidden: false
     },
     {
@@ -72,7 +73,7 @@ const Routes = [
       icon: Person,
       component: NewWorkoutPage,
       layout: "",
-      middelware:"auth",
+      middelware:RouteMiddlewares.auth,
       hidden: false
     },
     {
@@ -81,7 +82,7 @@ const Routes = [
       icon: Person,
       component: EditWorkoutPage,
       layout: "",
-      middelware:"auth",
+      middelware:RouteMiddlewares.auth,
       hidden: false
     }
   ];
