@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
-import {useLocation, useHistory} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import useWorkouts from "./useWorkoutes.js";
-import {getUrlParams, downInArray, upInArray} from "utils/global.js";
+import { getUrlParams, downInArray, upInArray } from "utils/global.js";
 import useArrCallback from "hooks/useArrCallback";
 
-const useWorkout = (action)=>{
-  
+const useWorkout = (action) => {
+
   const location = useLocation();
-  const history = useHistory();
-  const {date=null} = getUrlParams(location);
-  const {workouts, exercises, lockAuthApp, createWorkout, editWorkout, dataLoaded } = useWorkouts();
+  const { date = null } = getUrlParams(location);
+  const { workouts, exercises, lockAuthApp, createWorkout, editWorkout, dataLoaded } = useWorkouts();
 
   const [pickDate, setPickDate] = useState(new Date());
   const [workoutExs, setWorkoutExs] = useState([]);
@@ -17,71 +16,70 @@ const useWorkout = (action)=>{
 
   const [open, setOpen] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     let day;
-    if(date){
+    if (date) {
       day = new Date(date);
-      if(day == 'Invalid Date'){
+      if (day == 'Invalid Date') {
         day = new Date();
       }
-      day = new Date(day.setHours(day.getHours()+2));
-    }else{
+      day = new Date(day.setHours(day.getHours() + 2));
+    } else {
       day = new Date();
     }
     setPickDate(day);
-  },[]);
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = (id)=>{
-    if(id){
-      setWorkoutExs((prev)=>{
+  const handleClose = (id) => {
+    if (id) {
+      setWorkoutExs((prev) => {
         return [
           ...prev,
-          exercises[exercises.findIndex(ex=>ex._id===id)]
+          exercises[exercises.findIndex(ex => ex._id === id)]
         ]
       });
     }
     setOpen(false);
   };
 
-  const callback = (arrVals)=>{
-    console.log('callback = ', arrVals);
+  const callback = (arrVals) => {
     let isError = false;
 
-    for(const vals of arrVals){
+    for (const vals of arrVals) {
       if (Object.keys(vals).length === 0) {
         isError = true;
         break;
       }
     }
 
-    if(!isError){
-      if(action==='new'){
+    if (!isError) {
+      if (action === 'new') {
         createWorkout({
-          date:pickDate,
-          exercises:arrVals
+          date: pickDate,
+          exercises: arrVals
         });
-      }else if(action==='edit'){
+      } else if (action === 'edit') {
         editWorkout({
-          _id:idWorkout,
-          date:pickDate,
-          exercises:arrVals
+          _id: idWorkout,
+          date: pickDate,
+          exercises: arrVals
         });
       }
-      
+
     }
   };
 
   const {
-    isSubmit, 
-    handleSubmit, 
+    isSubmit,
+    handleSubmit,
     returnVals
-  } = useArrCallback({length: workoutExs.length, callback});
+  } = useArrCallback({ length: workoutExs.length, callback });
 
-  const downExercise = (id)=>{
+  const downExercise = (id) => {
     setWorkoutExs(downInArray({
       nameKey: '_id',
       key: id,
@@ -89,7 +87,7 @@ const useWorkout = (action)=>{
     }));
   }
 
-  const upExercise = (id)=>{
+  const upExercise = (id) => {
     setWorkoutExs(upInArray({
       nameKey: '_id',
       key: id,
@@ -97,8 +95,8 @@ const useWorkout = (action)=>{
     }));
   }
 
-  const delExercise = async (id)=>{
-    setWorkoutExs(workoutExs.filter(ex=>ex._id!==id));
+  const delExercise = async (id) => {
+    setWorkoutExs(workoutExs.filter(ex => ex._id !== id));
   }
 
   return {

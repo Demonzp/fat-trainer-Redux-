@@ -15,8 +15,6 @@ const getFullExercises = (workExs, exs)=>{
     }
   });
 
-  console.log('full = ', full);
-
   return full;
 }
 
@@ -51,14 +49,12 @@ const EditWorkoutPage = () => {
       return;
     }
 
-    console.log('dataLoaded = ', dataLoaded);
-
     if(!dataLoaded){
       return;
     }
 
     const selectWork = workouts.find(work=>parseDate(new Date(work.date))===parseDate(new Date(pickDate)));
-    console.log('selectWork =', selectWork);
+
     if(!selectWork){
       history.push(`${RoutNames.newWorkout}?date=${pickDate}`);
       return;

@@ -18,7 +18,6 @@ import FormBtn from "components/FormBtn/FormBtn";
 
 import WorkoutExItem from "components/WorkoutExItem/WorkoutExItem.js";
 import ExercisePicker from "components/ExercisePicker/ExercisePicker.js";
-import useWorkout from "hooks/useWorkout";
 import { parseDate } from "utils/global.js";
 
 const styles = {
@@ -56,19 +55,6 @@ const WorkoutPage = ({
 }) => {
 
   const classes = useStyles();
-  // const {
-  // pickDate,
-  // lockAuthApp,
-  // handleClickOpen,
-  // workoutExs,
-  // open,
-  // handleClose,
-  // isSubmit,
-  // returnVals,
-  // upExercise,
-  // downExercise,
-  // delExercise
-  // } = useWorkout();
 
   return (
     <GridContainer>
