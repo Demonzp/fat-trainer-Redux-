@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -52,7 +52,6 @@ const WorkoutExItem = ({ exercise, isSubmit, returnVals, i, workoutExs, delExerc
           repeats: exercise.repeats,
           measurment: exercise.measurment
         }}
-        //isLoading={lockAuthApp}
         direction="row"
         isSubmit={isSubmit}
       >

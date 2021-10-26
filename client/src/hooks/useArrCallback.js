@@ -5,8 +5,6 @@ const useArrCallback = ({ length, callback }) => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [values, setValues] = useState([]);
   const [num, setNum] = useState(0);
-  //console.log('length = ', length);
-  //const [maxNum, _] = useState(length);
 
   const handleSubmit = (e) => {
     console.log('nen!!');
@@ -15,7 +13,6 @@ const useArrCallback = ({ length, callback }) => {
   }
 
   useEffect(() => {
-    //console.log(num,'||', length);
     if (num>0 && num === length) {
       setIsSubmit(false);
       callback(values);
@@ -25,7 +22,6 @@ const useArrCallback = ({ length, callback }) => {
   }, [num]);
 
   const returnVals = (vals) => {
-    //console.log('returnVals = ', vals);
     setNum((prev)=>prev+1);
     setValues((prev) => [...prev, vals]);
   };

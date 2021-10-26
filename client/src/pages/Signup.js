@@ -23,6 +23,7 @@ function SignupPage() {
   function submit(values) {
     register(values)
       .then((data) => {
+        console.log('data = ', data);
         history.push(`${RoutNames.verification}?email=${values.email}&code=${data.code}`);
       });
   }
@@ -39,7 +40,7 @@ function SignupPage() {
       <EmailInput />
       <PasswordInput />
       <CustomTextInput name="confirmPassword" label="Repeat password" type="password" />
-      <FormBtn type="submit">Sign in</FormBtn>
+      <FormBtn type="submit">Sign up</FormBtn>
       <FormNavLink
         to={RoutNames.login}
       >already have an accaunt? sign-in</FormNavLink>

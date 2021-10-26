@@ -28,8 +28,6 @@ const reducer = (state, action) => {
 const UseValidationForm = (callback, callbackError, initialState = {}, Validation) => {
 
   const [values, setValues] = useState(initialState);
-  //const [errors, setErrors] = useState({});
-  //const [isSubmitting, setIsSubmitting] = useState(false);
   const [state, dispatch] = useReducer(reducer, initState);
 
   // Создаём функцию изменения.
@@ -48,16 +46,10 @@ const UseValidationForm = (callback, callbackError, initialState = {}, Validatio
       event.preventDefault();
     }
 
-    // Обработчик ошибок.
-    //setErrors(Validation(values));
-    //setIsSubmitting(true);
     dispatch({type: 'ON_SUBMIT', payload:Validation(values)});
   };
 
   const handleReset = (event) => {
-
-    //setIsSubmitting(false);
-    //setErrors({});
     dispatch({type: 'RESET'});
     setValues(initialState);
   };

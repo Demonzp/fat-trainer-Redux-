@@ -33,7 +33,7 @@ function VeryficationPage() {
     >
       <EmailInput disabled />
       <CustomTextInput name="verificationCode" label="Verification Code" />
-      <FormBtn type="submit">Verify email</FormBtn>
+      <FormBtn type="submit" >Verify email</FormBtn>
     </SimpleForm>
   );
 }

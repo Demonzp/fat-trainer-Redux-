@@ -1,4 +1,4 @@
-import {guestAxios, authAxios, handlerError} from "services/global";
+import {guestAxios, authAxios, handlerError} from "./global";
 
 const authReq = async (path, values)=>{
   try {

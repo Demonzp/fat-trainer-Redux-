@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const guestAxios = ()=>{
   return axios.create({
@@ -7,7 +7,6 @@ export const guestAxios = ()=>{
 }
 
 export const authAxios = (token)=>{
-  //console.log('token = ', token);
   return axios.create({
     baseURL:'http://localhost:5000/api',
     headers:{
@@ -18,7 +17,12 @@ export const authAxios = (token)=>{
 
 export const handlerError = (error)=>{
   if(error.response){
-    throw {message :error.response.data.message};
+    console.log('error = ', error.response);
+    if(error.response.data.message){
+      throw {message :error.response.data.message};
+    }
+    throw {message :error.response.data};
   }
+  
   throw error;
 }

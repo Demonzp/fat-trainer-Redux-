@@ -100,6 +100,7 @@ function App({ ...rest }) {
       window.removeEventListener("resize", resizeFunction);
     };
   }, [mainPanel]);
+  
   return (
     <div className={classes.wrapper}>
       <Sidebar

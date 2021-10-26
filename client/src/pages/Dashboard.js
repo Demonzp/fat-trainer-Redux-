@@ -38,7 +38,7 @@ const DashboardPage = () => {
     }
   }
 
-  const handlerAddNewExercise = (e) => {
+  const handlerAddNewExercise = (_) => {
     history.push(RoutNames.newExercise);
   }
 

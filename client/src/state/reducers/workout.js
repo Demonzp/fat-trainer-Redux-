@@ -1,3 +1,7 @@
+export const ADD_WORKOUT = 'ADD_WORKOUT';
+export const FETCH_WORKOUTS = 'FETCH_WORKOUTS';
+export const EDIT_WORKOUT = 'EDIT_WORKOUT';
+
 const workout = (state, action) => {
 
   if (state === undefined) {
@@ -10,7 +14,7 @@ const workout = (state, action) => {
   const payload = action.payload;
 
   switch (action.type) {
-    case "ADD_WORKOUT":{
+    case ADD_WORKOUT:{
       return {
         ...state,
         workouts:[
@@ -19,13 +23,13 @@ const workout = (state, action) => {
         ]
       }
     }
-    case "FETCH_WORKOUTS": {
+    case FETCH_WORKOUTS: {
       return {
         workouts: payload,
         isLoaded: true
       }
     }
-    case "EDIT_WORKOUT":{
+    case EDIT_WORKOUT:{
       const idx = state.workouts.findIndex((work)=>work._id===payload._id);
       return{
         ...state,

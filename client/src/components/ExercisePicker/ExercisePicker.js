@@ -48,7 +48,7 @@ const SimpleDialog = ({workoutExs, onClose, open })=> {
 
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
+      <DialogTitle id="simple-dialog-title">Select exercise</DialogTitle>
       <List>
         {filterEx.map((ex) => (
           <ListItem button onClick={() => handleListItemClick(ex._id)} key={ex._id}>

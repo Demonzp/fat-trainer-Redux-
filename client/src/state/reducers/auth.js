@@ -1,3 +1,8 @@
+export const SET_LOCK_AUTH_APP = 'SET_LOCK_AUTH_APP';
+export const AUTH_CHANGE = 'AUTH_CHANGE';
+export const ROUTES_CHANGE = 'ROUTES_CHANGE';
+export const SET_TOKEN = 'SET_TOKEN';
+
 const auth = (state, action) => {
 
   if (state === undefined) {
@@ -14,7 +19,7 @@ const auth = (state, action) => {
   const payload = action.payload;
 
   switch (action.type) {
-    case "AUTH_CHANGE": {
+    case AUTH_CHANGE: {
       const {user, token, dataLoaded} = payload;
 
       return {
@@ -27,21 +32,21 @@ const auth = (state, action) => {
       }
     }
 
-    case "ROUTES_CHANGE":{
+    case ROUTES_CHANGE:{
       return{
         ...state,
         activRoutes: payload
       }
     }
 
-    case "SET_TOKEN":{
+    case SET_TOKEN:{
       return {
         ...state,
         token: payload
       }
     }
 
-    case "SET_LOCK_AUTH_APP":{
+    case SET_LOCK_AUTH_APP:{
       return {
         ...state,
         lockAuthApp: payload 
