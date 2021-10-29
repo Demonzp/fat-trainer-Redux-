@@ -24,13 +24,11 @@ const reducer = (state, action) => {
   }
 }
 
-// Cоздаём кастомный хук UseValidationForm.
 const UseValidationForm = (callback, callbackError, initialState = {}, Validation) => {
 
   const [values, setValues] = useState(initialState);
   const [state, dispatch] = useReducer(reducer, initState);
 
-  // Создаём функцию изменения.
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -40,7 +38,6 @@ const UseValidationForm = (callback, callbackError, initialState = {}, Validatio
     });
   };
 
-  // Создаём функцию отправки.
   const handleSubmit = (event) => {
     if (event) {
       event.preventDefault();
